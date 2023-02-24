@@ -4,9 +4,9 @@ export const Container = styled('main', {
 	display: 'flex',
 	flexDirection: 'column',
 	alignItems: 'center',
-	justifyContent: 'center',
-	margin: '0 auto',
-	height: 656,
+	justifyContent: 'space-evenly',
+	marginBlock: 'auto',
+	height: '70vh',
 
 	h1: {
 		fontSize: '$2xl',
@@ -18,13 +18,11 @@ export const Container = styled('main', {
 		color: '$gray300',
 		maxWidth: 560,
 		textAlign: 'center',
-		marginTop: '2rem',
 		lineHeight: 1.4,
 	},
 
 	a: {
 		display: 'block',
-		marginTop: '5rem',
 		fontSize: '$lg',
 		color: '$green500',
 		textDecoration: 'none',
@@ -36,18 +34,53 @@ export const Container = styled('main', {
 	},
 });
 
+export const Images = styled('div', {
+	display: 'flex',
+	alignItems: 'cente',
+	justifyContent: 'center',
+
+	'div:first-child': {
+		marginLeft: 0,
+	},
+});
+
 export const ImageContainer = styled('div', {
-	width: '100%',
-	maxWidth: 130,
-	height: 145,
+	width: 140,
+	height: 140,
+
+	marginLeft: '-25px',
+
+	boxShadow: '-15px 0 30px rgba(0, 0, 0, 0.8)',
+
 	background: 'linear-gradient(180deg, #1ea483 0%, #7465d4 100%)',
-	borderRadius: 8,
+	borderRadius: '50%',
 	padding: '0.25rem',
-	marginTop: '4rem',
 
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
+
+	position: 'relative',
+
+	span: {
+		position: 'absolute',
+		boxSizing: 'content-box',
+		top: 0,
+		left: 0,
+
+		width: '1.5rem',
+		height: '1.5rem',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+
+		color: '$white',
+		fontWeight: 'bold',
+		fontSize: '.875rem',
+		borderRadius: '50%',
+		border: '3px solid $gray900',
+		background: '$green500',
+	},
 
 	img: {
 		objectFit: 'cover',

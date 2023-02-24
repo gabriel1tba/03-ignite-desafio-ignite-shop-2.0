@@ -89,30 +89,28 @@ export default function HomeTemplate({ products }: HomeTemplateProps) {
 			)}
 
 			<div ref={sliderRef} className='keen-slider'>
-				{products.map((product) => {
-					return (
-						<Link
-							href={`/product/${product.id}`}
-							key={product.id}
-							prefetch={false}
-						>
-							<S.Product className='keen-slider__slide'>
-								<Image src={product.imageUrl} width={520} height={480} alt='' />
+				{products.map((product) => (
+					<Link
+						href={`/product/${product.id}`}
+						key={product.id}
+						prefetch={false}
+					>
+						<S.Product className='keen-slider__slide'>
+							<Image src={product.imageUrl} width={520} height={480} alt='' />
 
-								<footer>
-									<div className='title'>
-										<strong>{product.name}</strong>
-										<span>{product.price}</span>
-									</div>
+							<footer>
+								<div className='title'>
+									<strong>{product.name}</strong>
+									<span>{product.price}</span>
+								</div>
 
-									<div className='icon'>
-										<Handbag weight='bold' size={32} />
-									</div>
-								</footer>
-							</S.Product>
-						</Link>
-					);
-				})}
+								<div className='icon'>
+									<Handbag weight='bold' size={32} />
+								</div>
+							</footer>
+						</S.Product>
+					</Link>
+				))}
 			</div>
 
 			{current <= products.length - 2 && (

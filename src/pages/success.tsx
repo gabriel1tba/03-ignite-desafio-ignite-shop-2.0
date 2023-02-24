@@ -7,10 +7,10 @@ import SuccessTemplate, {
 } from 'templates/SuccessTemplate';
 
 export default function Success({
-	costumerName,
-	product,
+	customerName,
+	products,
 }: SuccessTemplateProps) {
-	return <SuccessTemplate costumerName={costumerName} product={product} />;
+	return <SuccessTemplate customerName={customerName} products={products} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
@@ -29,16 +29,23 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
 		expand: ['line_items', 'line_items.data.price.product'],
 	});
 
-	const costumerName = session.customer_details?.name;
-	const product = session.line_items?.data[0]?.price?.product as Stripe.Product;
+	const customerName = session.customer_details?.name;
+
+	const products = session.line_items?.data.map((item) => {
+		const product = item.price?.product as Stripe.Product;
+
+		return {
+			id: product.id,
+			name: product.name,
+			imageUrl: product.images[0],
+			quantity: item.quantity,
+		};
+	});
 
 	return {
 		props: {
-			costumerName,
-			product: {
-				name: product.name,
-				imageUrl: product.images[0],
-			},
+			customerName,
+			products,
 		},
 	};
 };

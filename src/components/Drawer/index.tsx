@@ -23,12 +23,10 @@ export function Drawer({ style, onCloseCartShopping }: DrawerProps) {
 		try {
 			setIsCreatingCheckoutSession(true);
 
-			const orderList = products.map((product) => {
-				return {
-					price: product.defaultPriceId,
-					quantity: product.quantity,
-				};
-			});
+			const orderList = products.map((product) => ({
+				price: product.defaultPriceId,
+				quantity: product.quantity,
+			}));
 
 			const {
 				data: { checkoutUrl },
@@ -52,47 +50,40 @@ export function Drawer({ style, onCloseCartShopping }: DrawerProps) {
 				<h2>Sacola de compras</h2>
 
 				<S.Items>
-					{products.map((product) => {
-						return (
-							<S.Item key={product.id}>
-								<S.ImageContainer>
-									<Image
-										src={product.imageUrl}
-										width={100}
-										height={100}
-										alt=''
-									/>
-								</S.ImageContainer>
+					{products.map((product) => (
+						<S.Item key={product.id}>
+							<S.ImageContainer>
+								<Image src={product.imageUrl} width={100} height={100} alt='' />
+							</S.ImageContainer>
 
-								<S.Info>
-									<span>{product.name}</span>
-									<strong>{product.price}</strong>
-								</S.Info>
+							<S.Info>
+								<span>{product.name}</span>
+								<strong>{product.price}</strong>
+							</S.Info>
 
-								<S.Actions>
-									<div className='quantity'>
-										<button onClick={() => decrement(product.id)}>
-											<Minus weight='bold' color='white' size={14} />
-										</button>
-
-										<span>{product.quantity}</span>
-
-										<button onClick={() => increment(product.id)}>
-											<Plus weight='bold' color='white' size={14} />
-										</button>
-									</div>
-
-									<button
-										className='remove'
-										onClick={() => removeProduct(product.id)}
-									>
-										<TrashSimple weight='bold' color='white' size={14} />
-										Remover
+							<S.Actions>
+								<div className='quantity'>
+									<button onClick={() => decrement(product.id)}>
+										<Minus weight='bold' color='white' size={14} />
 									</button>
-								</S.Actions>
-							</S.Item>
-						);
-					})}
+
+									<span>{product.quantity}</span>
+
+									<button onClick={() => increment(product.id)}>
+										<Plus weight='bold' color='white' size={14} />
+									</button>
+								</div>
+
+								<button
+									className='remove'
+									onClick={() => removeProduct(product.id)}
+								>
+									<TrashSimple weight='bold' color='white' size={14} />
+									Remover
+								</button>
+							</S.Actions>
+						</S.Item>
+					))}
 				</S.Items>
 
 				<S.PurchaseDetails>
