@@ -5,16 +5,27 @@ const rotate = keyframes({
 	'100%': { transform: 'rotate(360deg)' },
 });
 
-export const Container = styled('div', {
-	height: '100vh',
-	maxWidth: 'auto',
+export const Overlay = styled('div', {
+	zIndex: 1,
 	position: 'fixed',
+	width: '100vw',
+	height: '100vh',
+	inset: 0,
+	background: 'rgba(0, 0, 0, 0.6)',
+	backdropFilter: 'blur(5px)',
+});
+
+export const Container = styled('div', {
+	position: 'absolute',
 	top: 0,
 	right: 0,
-	zIndex: 50,
 	display: 'flex',
 	flexDirection: 'column',
 	padding: '3rem',
+	zIndex: 2,
+	height: '100vh',
+	maxWidth: 480,
+	width: '100%',
 
 	background: '$gray800',
 	boxShadow: '-10px 0 30px rgba(0, 0, 0, 0.8)',

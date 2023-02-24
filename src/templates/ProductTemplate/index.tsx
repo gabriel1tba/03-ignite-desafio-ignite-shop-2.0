@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Head from 'next/head';
-import { useState } from 'react';
-import axios from 'axios';
+
+import { useCartShoppingContext } from 'hooks/useCartShoppingContext';
 
 import * as S from './styles';
 
@@ -24,26 +24,7 @@ export interface ProductTemplateProps {
 function ProductTemplate({ product }: ProductTemplateProps) {
 	const { isFallback } = useRouter();
 
-	const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
-		useState(false);
-
-	const handleBuyButton = async () => {
-		try {
-			setIsCreatingCheckoutSession(true);
-
-			const { data } = await axios.post('/api/checkout', {
-				priceId: product.defaultPriceId,
-			});
-
-			const { checkoutUrl } = data;
-
-			window.location.href = checkoutUrl;
-		} catch (err) {
-			setIsCreatingCheckoutSession(false);
-
-			console.log('Falha ao redirecionar ao checkout!');
-		}
-	};
+	const { addProduct } = useCartShoppingContext();
 
 	if (isFallback) {
 		return (
@@ -75,9 +56,7 @@ function ProductTemplate({ product }: ProductTemplateProps) {
 				<h1>{product.name}</h1>
 				<span>{product.price}</span>
 				<p>{product.description}</p>
-				<button disabled={isCreatingCheckoutSession} onClick={handleBuyButton}>
-					Comprar agora
-				</button>
+				<button onClick={() => addProduct(product)}>Colocar na sacola</button>
 			</S.ProductDetails>
 		</S.Container>
 	);

@@ -67,8 +67,12 @@ export function CartShoppingProvider({ children }: CartShoppingProviderProps) {
 			const productIndex = prevState.findIndex((product) => product.id === id);
 
 			const currentProducts = [...prevState];
+			const currentProduct = currentProducts[productIndex];
 
-			currentProducts[productIndex].quantity++;
+			currentProducts[productIndex] = {
+				...currentProduct,
+				quantity: currentProduct.quantity + 1,
+			};
 
 			return currentProducts;
 		});
@@ -79,9 +83,13 @@ export function CartShoppingProvider({ children }: CartShoppingProviderProps) {
 			const productIndex = prevState.findIndex((product) => product.id === id);
 
 			const currentProducts = [...prevState];
+			const currentProduct = currentProducts[productIndex];
 
 			if (currentProducts[productIndex].quantity > 1) {
-				currentProducts[productIndex].quantity--;
+				currentProducts[productIndex] = {
+					...currentProduct,
+					quantity: currentProduct.quantity - 1,
+				};
 			}
 
 			return currentProducts;

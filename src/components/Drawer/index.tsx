@@ -43,71 +43,81 @@ export function Drawer({ style, onCloseCartShopping }: DrawerProps) {
 	};
 
 	return (
-		<S.Container style={style}>
-			<S.CloseButton onClick={onCloseCartShopping}>
-				<X weight='bold' size={24} />
-			</S.CloseButton>
+		<S.Overlay>
+			<S.Container style={style}>
+				<S.CloseButton onClick={onCloseCartShopping}>
+					<X weight='bold' size={24} />
+				</S.CloseButton>
 
-			<h2>Sacola de compras</h2>
+				<h2>Sacola de compras</h2>
 
-			<S.Items>
-				{products.map((product) => {
-					return (
-						<S.Item key={product.id}>
-							<S.ImageContainer>
-								<Image src={product.imageUrl} width={100} height={100} alt='' />
-							</S.ImageContainer>
+				<S.Items>
+					{products.map((product) => {
+						return (
+							<S.Item key={product.id}>
+								<S.ImageContainer>
+									<Image
+										src={product.imageUrl}
+										width={100}
+										height={100}
+										alt=''
+									/>
+								</S.ImageContainer>
 
-							<S.Info>
-								<span>{product.name}</span>
-								<strong>{product.price}</strong>
-							</S.Info>
+								<S.Info>
+									<span>{product.name}</span>
+									<strong>{product.price}</strong>
+								</S.Info>
 
-							<S.Actions>
-								<div className='quantity'>
-									<button onClick={() => decrement(product.id)}>
-										<Minus weight='bold' color='white' size={14} />
+								<S.Actions>
+									<div className='quantity'>
+										<button onClick={() => decrement(product.id)}>
+											<Minus weight='bold' color='white' size={14} />
+										</button>
+
+										<span>{product.quantity}</span>
+
+										<button onClick={() => increment(product.id)}>
+											<Plus weight='bold' color='white' size={14} />
+										</button>
+									</div>
+
+									<button
+										className='remove'
+										onClick={() => removeProduct(product.id)}
+									>
+										<TrashSimple weight='bold' color='white' size={14} />
+										Remover
 									</button>
+								</S.Actions>
+							</S.Item>
+						);
+					})}
+				</S.Items>
 
-									<span>{product.quantity}</span>
+				<S.PurchaseDetails>
+					<div>
+						<p>Quantidade</p>
+						<span>{products.length} items</span>
+					</div>
 
-									<button onClick={() => increment(product.id)}>
-										<Plus weight='bold' color='white' size={14} />
-									</button>
-								</div>
+					<div>
+						<p>Valor total</p>
+						<span>{totalAmount}</span>
+					</div>
 
-								<button
-									className='remove'
-									onClick={() => removeProduct(product.id)}
-								>
-									<TrashSimple weight='bold' color='white' size={14} />
-									Remover
-								</button>
-							</S.Actions>
-						</S.Item>
-					);
-				})}
-			</S.Items>
-
-			<S.PurchaseDetails>
-				<div>
-					<p>Quantidade</p>
-					<span>{products.length} items</span>
-				</div>
-
-				<div>
-					<p>Valor total</p>
-					<span>{totalAmount}</span>
-				</div>
-
-				<button onClick={handleBuyProduct} disabled={isCreatingCheckoutSession}>
-					{isCreatingCheckoutSession ? (
-						<CircleNotch className='loading' weight='bold' />
-					) : (
-						'Finalizar compra'
-					)}
-				</button>
-			</S.PurchaseDetails>
-		</S.Container>
+					<button
+						onClick={handleBuyProduct}
+						disabled={isCreatingCheckoutSession}
+					>
+						{isCreatingCheckoutSession ? (
+							<CircleNotch className='loading' weight='bold' />
+						) : (
+							'Finalizar compra'
+						)}
+					</button>
+				</S.PurchaseDetails>
+			</S.Container>
+		</S.Overlay>
 	);
 }
