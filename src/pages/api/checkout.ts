@@ -1,9 +1,15 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+
 import { stripe } from 'lib/stripe';
+
+type OrderList = {
+	priceId: string;
+	quantity: number;
+};
 
 interface ExtendedNextApiRequest extends NextApiRequest {
 	body: {
-		priceId: string;
+		orderList: OrderList[];
 	};
 }
 
@@ -11,13 +17,13 @@ export default async function handler(
 	req: ExtendedNextApiRequest,
 	res: NextApiResponse
 ) {
-	const { priceId } = req.body;
+	const { orderList } = req.body;
 
 	if (req.method !== 'POST') {
 		return res.status(405).json({ error: 'Method not allowed.' });
 	}
 
-	if (!priceId) {
+	if (!orderList.length) {
 		return res.status(400).json({ error: 'Price not found.' });
 	}
 
@@ -28,12 +34,7 @@ export default async function handler(
 		success_url: successUrl,
 		cancel_url: cancelUrl,
 		mode: 'payment',
-		line_items: [
-			{
-				price: priceId,
-				quantity: 1,
-			},
-		],
+		line_items: orderList,
 	});
 
 	return res.status(201).json({
